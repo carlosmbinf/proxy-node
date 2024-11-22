@@ -16,11 +16,10 @@
   },
   "sites": [
     {
-      "subject": "vidkar.ddns.net",
+      "subject": "ddns.net",
       "altnames": [
         "vidkar.ddns.net"
-      ],
-      "renewAt": 1
+      ]
     }
   ]
 }
