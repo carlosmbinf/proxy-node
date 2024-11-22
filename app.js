@@ -28,6 +28,9 @@ Greenlock.init({
             altnames: ["vidkar.ddns.net"], // Alias adicionales
         },
     ],
+    agreeTos: true, // Accept Let's Encrypt v2 Agreement
+    email: 'carlosmbinf@gmail.com', // IMPORTANT: Change email and domains
+    approveDomains: ['vidkar.ddns.net', 'vidkar.ddns.net'], // IMPORTANT: Change email and domains
 })
     .serve((req, res) => {
         // Redirigir todas las solicitudes HTTPS al proxy reverso
