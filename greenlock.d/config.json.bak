@@ -17,10 +17,7 @@
   "sites": [
     {
       "subject": "vidkar.ddns.net",
-      "altnames": [
-        "vidkar.ddns.net"
-      ],
-      "renewAt": 1
-    }
+      "altnames": ["vidkar.ddns.net"]
+  }
   ]
 }
