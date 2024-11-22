@@ -12,12 +12,15 @@
     "renewStagger": "3d",
     "accountKeyType": "EC-P256",
     "serverKeyType": "RSA-2048",
-    "subscriberEmail": "carlosmbinf@gmail.com"
+    "subscriberEmail": "carlosmbinf@gmail.com",
+    "maintainerEmail": "jon@example.com"
   },
   "sites": [
     {
-      "subject": "vidkar.ddns.net",
-      "altnames": ["vidkar.ddns.net"]
-  }
+      "subject": "ddns.net",
+      "altnames": [
+        "vidkar.ddns.net"
+      ]
+    }
   ]
 }
