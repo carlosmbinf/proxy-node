@@ -30,7 +30,8 @@ Greenlock.init({
     ],
     agreeTos: true, // Accept Let's Encrypt v2 Agreement
     email: 'carlosmbinf@gmail.com', // IMPORTANT: Change email and domains
-    approveDomains: ['vidkar.ddns.net', 'vidkar.ddns.net'], // IMPORTANT: Change email and domains
+    approveDomains: ['vidkar.ddns.net'], // IMPORTANT: Change email and domains
+    server: "https://acme-v02.api.letsencrypt.org/directory",
 })
     .serve((req, res) => {
         // Redirigir todas las solicitudes HTTPS al proxy reverso
