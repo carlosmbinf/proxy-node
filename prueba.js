@@ -1,96 +1,20 @@
-'use strict';
-
-var Greenlock = require('greenlock');
-var greenlock;
-
-
-// Storage Backend
-var leStore = require('greenlock-store-fs').create({
-  configDir: '~/acme/etc'                                 // or /etc/letsencrypt or wherever
-, debug: false
-});
-
-
-// ACME Challenge Handlers
-var leHttpChallenge = require('le-challenge-fs').create({
-  webrootPath: '~/acme/var/'                              // or template string such as
-, debug: false                                            // '/srv/www/:hostname/.well-known/acme-challenge'
-});
-
-
-function leAgree(opts, agreeCb) {
-  // opts = { email, domains, tosUrl }
-  agreeCb(null, opts.tosUrl);
-}
-
-greenlock = Greenlock.create({
-  version: 'draft-12' ,                                    // 'draft-12' or 'v01'
-                                                          // 'draft-12' is for Let's Encrypt v2 otherwise known as ACME draft 12
-                                                          // 'v02' is an alias for 'draft-12'
-                                                          // 'v01' is for the pre-spec Let's Encrypt v1
-  //
-  // staging API
-  //server: 'https://acme-staging-v02.api.letsencrypt.org/directory'
-
-  //
-  // production API
-  server: 'https://acme-v02.api.letsencrypt.org/directory'
-
-, store: leStore                                          // handles saving of config, accounts, and certificates
-, challenges: {
-    'http-01': leHttpChallenge                            // handles /.well-known/acme-challege keys and tokens
-  }
-, challengeType: 'http-01'                                // default to this challenge type
-, agreeToTerms: leAgree                                   // hook to allow user to view and accept LE TOS
-//, sni: require('le-sni-auto').create({})                // handles sni callback
-
-                                                          // renewals happen at a random time within this window
-, renewWithin: 14 * 24 * 60 * 60 * 1000                   // certificate renewal may begin at this time
-, renewBy:     10 * 24 * 60 * 60 * 1000                   // certificate renewal should happen by this time
-
-, debug: false
-//, log: function (debug) {console.log.apply(console, args);} // handles debug outputs
-});
-
-
-// If using express you should use the middleware
-// app.use('/', greenlock.middleware());
-//
-// Otherwise you should see the test file for usage of this:
-// greenlock.challenges['http-01'].get(opts.domain, key, val, done)
-
-
-
-// Check in-memory cache of certificates for the named domain
-greenlock.check({ domains: [ 'vidkar.ddns.net' ] }).then(function (results) {
-  if (results) {
-    // we already have certificates
-    return;
-  }
-
-
-  // Register Certificate manually
-  greenlock.register({
-
-    domains: ['vidkar.ddns.net']                                // CHANGE TO YOUR DOMAIN (list for SANS)
-  , email: 'carlosmbinf@gmail.com'                                 // CHANGE TO YOUR EMAIL
-  , agreeTos: true                                            // set to tosUrl string (or true) to pre-approve (and skip agreeToTerms)
-  , rsaKeySize: 2048                                        // 2048 or higher
-  , challengeType: 'http-01'                                // http-01, tls-sni-01, or dns-01
-
-  }).then(function (results) {
-
-    console.log('success');
-
-  }, function (err) {
-
-    // Note: you must either use greenlock.middleware() with express,
-    // manually use greenlock.challenges['http-01'].get(opts, domain, key, val, done)
-    // or have a webserver running and responding
-    // to /.well-known/acme-challenge at `webrootPath`
-    console.error('[Error]: node-greenlock/examples/standalone');
-    console.error(err.stack);
-
-  });
-
-});
+"use strict";
+ 
+var app = function(req, res) {
+  res.end("Hello, Encrypted World!");
+};
+ 
+require("greenlock-express")
+    .init({
+        packageRoot: __dirname,
+        configDir: "./greenlock.d",
+ 
+        // contact for security and critical bug notices
+        maintainerEmail: "carlosmbinf@gmail.com",
+ 
+        // whether or not to run at cloudscale
+        cluster: false
+    })
+    // Serves on 80 and 443
+    // Get's SSL certificates magically!
+    .serve(app);
