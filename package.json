@@ -6,9 +6,11 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "fs": "0.0.1-security",
-    "http-proxy": "^1.18.1"
+    "greenlock": "^2.8.9",
+    "greenlock-express": "^4.0.3",
+    "http-proxy": "^1.18.1",
+    "ws": "^8.18.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
